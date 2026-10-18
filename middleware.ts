@@ -1,10 +1,15 @@
 import { withAuth } from "next-auth/middleware";
 
+const AUTH_SECRET =
+  process.env.NEXTAUTH_SECRET ||
+  process.env.AUTH_SECRET ||
+  "whatsapp-food-ordering-jwt-secret-key-production-fallback-32chars";
+
 export default withAuth({
   pages: {
     signIn: "/login",
   },
-  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
+  secret: AUTH_SECRET,
 });
 
 export const config = {
@@ -15,6 +20,5 @@ export const config = {
     "/payments/:path*",
     "/users/:path*",
     "/settings/:path*",
-    "/api/admin/:path*",
   ],
 };

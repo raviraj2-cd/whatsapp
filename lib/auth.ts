@@ -6,6 +6,20 @@ import connectDB from "@/lib/db";
 import logger from "@/lib/logger";
 import Admin from "@/models/Admin";
 
+// Auto-detect NEXTAUTH_URL on Vercel if not explicitly defined
+if (!process.env.NEXTAUTH_URL) {
+  if (process.env.VERCEL_URL) {
+    process.env.NEXTAUTH_URL = `https://${process.env.VERCEL_URL}`;
+  } else {
+    process.env.NEXTAUTH_URL = "http://localhost:3000";
+  }
+}
+
+export const AUTH_SECRET =
+  process.env.NEXTAUTH_SECRET ||
+  process.env.AUTH_SECRET ||
+  "whatsapp-food-ordering-jwt-secret-key-production-fallback-32chars";
+
 // Rate limiting & lockout tracker for login attempts
 // Map: email -> { attempts: number, lockedUntil?: number }
 const loginAttemptsMap = new Map<string, { attempts: number; lockedUntil?: number }>();
@@ -90,7 +104,7 @@ export const authOptions: AuthOptions = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
+  secret: AUTH_SECRET,
 };
 
 function recordFailedAttempt(email: string) {
