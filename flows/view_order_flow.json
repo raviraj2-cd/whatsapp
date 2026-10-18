@@ -1,0 +1,65 @@
+{
+  "version": "6.0",
+  "screens": [
+    {
+      "id": "ORDER",
+      "title": "Live Order Status",
+      "terminal": true,
+      "data": {
+        "order_number": {
+          "type": "string",
+          "__example__": "ORD-20261015-001"
+        },
+        "order_status": {
+          "type": "string",
+          "__example__": "Preparing in kitchen"
+        },
+        "items_summary": {
+          "type": "string",
+          "__example__": "2x Hyderabadi Biryani\n1x Garlic Naan"
+        },
+        "total_amount": {
+          "type": "string",
+          "__example__": "₹670"
+        },
+        "delivery_details": {
+          "type": "string",
+          "__example__": "Delivery to: Flat 402, Green Heights"
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Order: ${data.order_number}"
+          },
+          {
+            "type": "TextSubheading",
+            "text": "Status: ${data.order_status}"
+          },
+          {
+            "type": "TextCaption",
+            "text": "Items:"
+          },
+          {
+            "type": "TextBody",
+            "text": "${data.items_summary}"
+          },
+          {
+            "type": "TextHeading",
+            "text": "Total: ${data.total_amount}"
+          },
+          {
+            "type": "TextCaption",
+            "text": "${data.delivery_details}"
+          },
+          {
+            "type": "Footer",
+            "label": "Done"
+          }
+        ]
+      }
+    }
+  ]
+}

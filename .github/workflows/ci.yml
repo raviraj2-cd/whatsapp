@@ -1,0 +1,64 @@
+name: CI & Deployment Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Lint, Typecheck & Test Suite
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
+
+    env:
+      NODE_ENV: test
+      MONGODB_URI: mongodb://localhost:27017/whatsapp_food_test
+      NEXTAUTH_SECRET: test-secret-at-least-32-chars-long-12345
+      NEXTAUTH_URL: http://localhost:3000
+      META_APP_SECRET: test_meta_app_secret
+      WHATSAPP_VERIFY_TOKEN: test_verify_token
+      RAZORPAY_KEY_ID: rzp_test_mockKey
+      RAZORPAY_KEY_SECRET: mockSecret
+      RAZORPAY_WEBHOOK_SECRET: test_webhook_secret
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: TypeScript Type Check
+        run: npx tsc --noEmit
+
+      - name: Run Full Test Suite
+        run: npm test
+
+  deploy:
+    name: Production Deployment
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Trigger Webhook / Production Deploy
+        run: |
+          echo "CI checks passed. Triggering production deployment..."
+          # Optional: curl -X POST ${{ secrets.DEPLOY_HOOK_URL }}
+          # Or Vercel / Railway CLI deploy

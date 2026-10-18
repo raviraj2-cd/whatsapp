@@ -1,0 +1,96 @@
+{
+  "version": "6.0",
+  "screens": [
+    {
+      "id": "FORM",
+      "title": "Custom Food Request",
+      "terminal": false,
+      "data": {
+        "min_date": {
+          "type": "string",
+          "__example__": "2026-10-15"
+        },
+        "cutoff_note": {
+          "type": "string",
+          "__example__": "Orders for today close at 13:00"
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "custom_form",
+            "children": [
+              {
+                "type": "TextSubheading",
+                "text": "Tell Us What You'd Like"
+              },
+              {
+                "type": "TextCaption",
+                "text": "${data.cutoff_note}"
+              },
+              {
+                "type": "TextArea",
+                "name": "description",
+                "label": "Dish Description & Ingredients",
+                "required": true,
+                "helper-text": "E.g., Low-spice chicken curry with Jeera rice"
+              },
+              {
+                "type": "Dropdown",
+                "name": "portion",
+                "label": "Number of People / Portions",
+                "required": true,
+                "data-source": [
+                  { "id": "1", "title": "1 Person" },
+                  { "id": "2", "title": "2 People" },
+                  { "id": "3_4", "title": "3 - 4 People" },
+                  { "id": "5_plus", "title": "5+ People (Family/Party)" }
+                ]
+              },
+              {
+                "type": "DatePicker",
+                "name": "date",
+                "label": "Preparation Date",
+                "required": true,
+                "min-date": "${data.min_date}"
+              },
+              {
+                "type": "Dropdown",
+                "name": "time",
+                "label": "Preferred Time",
+                "required": true,
+                "data-source": [
+                  { "id": "lunch", "title": "Lunch (12:30 PM - 02:00 PM)" },
+                  { "id": "dinner", "title": "Dinner (07:30 PM - 09:30 PM)" }
+                ]
+              },
+              {
+                "type": "TextInput",
+                "name": "notes",
+                "label": "Special Dietary Notes (Optional)",
+                "required": false,
+                "helper-text": "E.g. Jain, diabetic-friendly, less oil"
+              },
+              {
+                "type": "Footer",
+                "label": "Request Chef Quote",
+                "on-click-action": {
+                  "name": "complete",
+                  "payload": {
+                    "description": "${form.description}",
+                    "portion": "${form.portion}",
+                    "date": "${form.date}",
+                    "time": "${form.time}",
+                    "notes": "${form.notes}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

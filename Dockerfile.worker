@@ -1,0 +1,17 @@
+# Lightweight Node container for the WhatsApp food ordering scheduler worker
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+# Set production environment
+ENV NODE_ENV=production
+
+# Install production dependencies
+COPY package.json package-lock.json* ./
+RUN npm ci --omit=dev || npm install --omit=dev
+
+# Copy application files
+COPY . .
+
+# Start the long-running worker process
+CMD ["npx", "tsx", "worker/index.ts"]

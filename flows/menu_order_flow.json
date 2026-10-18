@@ -1,0 +1,128 @@
+{
+  "version": "6.0",
+  "screens": [
+    {
+      "id": "MENU",
+      "title": "Select Dishes",
+      "terminal": false,
+      "data": {
+        "menu_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          },
+          "__example__": [
+            { "id": "1", "title": "Hyderabadi Biryani - ₹320", "description": "Aromatic slow-cooked basmati rice" }
+          ]
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "menu_form",
+            "children": [
+              {
+                "type": "TextSubheading",
+                "text": "Today's Specials"
+              },
+              {
+                "type": "TextCaption",
+                "text": "Select the dishes you would like to order:"
+              },
+              {
+                "type": "CheckboxGroup",
+                "name": "selected_item_ids",
+                "label": "Menu Items",
+                "required": true,
+                "data-source": "${data.menu_items}"
+              },
+              {
+                "type": "Footer",
+                "label": "Proceed to Summary",
+                "on-click-action": {
+                  "name": "data_exchange",
+                  "payload": {
+                    "selected_item_ids": "${form.selected_item_ids}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "SUMMARY",
+      "title": "Delivery & Confirmation",
+      "terminal": false,
+      "data": {
+        "order_summary_text": {
+          "type": "string",
+          "__example__": "Selected: 2 items | Total: ₹670"
+        },
+        "delivery_charge_text": {
+          "type": "string",
+          "__example__": "Delivery Charge: ₹30"
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "summary_form",
+            "children": [
+              {
+                "type": "TextSubheading",
+                "text": "Order Details"
+              },
+              {
+                "type": "TextBody",
+                "text": "${data.order_summary_text}"
+              },
+              {
+                "type": "TextCaption",
+                "text": "${data.delivery_charge_text}"
+              },
+              {
+                "type": "RadioButtonsGroup",
+                "name": "delivery_type",
+                "label": "Order Type",
+                "required": true,
+                "data-source": [
+                  { "id": "delivery", "title": "Home Delivery" },
+                  { "id": "pickup", "title": "Self Pickup (No fee)" }
+                ]
+              },
+              {
+                "type": "TextArea",
+                "name": "address",
+                "label": "Delivery Address",
+                "required": true,
+                "helper-text": "Flat, Building, Street, Landmark"
+              },
+              {
+                "type": "Footer",
+                "label": "Submit Order",
+                "on-click-action": {
+                  "name": "complete",
+                  "payload": {
+                    "delivery_type": "${form.delivery_type}",
+                    "address": "${form.address}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
