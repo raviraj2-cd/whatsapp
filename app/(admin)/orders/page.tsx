@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useTransition } from "react";
+import React, { Suspense, useEffect, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 
 interface OrderItem {
@@ -47,7 +47,7 @@ interface OrderRecord {
   };
 }
 
-export default function OrdersPage() {
+function OrdersContent() {
   const searchParams = useSearchParams();
   const initialType = searchParams.get("type") === "custom" ? "custom" : "menu";
 
@@ -560,3 +560,18 @@ export default function OrdersPage() {
     </div>
   );
 }
+
+export default function OrdersPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center py-16 text-slate-400 animate-pulse text-sm">
+          Loading orders...
+        </div>
+      }
+    >
+      <OrdersContent />
+    </Suspense>
+  );
+}
+
