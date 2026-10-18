@@ -12,6 +12,8 @@ const cancelSchema = z.object({
   reason: z.string().min(1, "Cancellation reason is required"),
 });
 
+export const dynamic = "force-dynamic";
+
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

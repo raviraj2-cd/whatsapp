@@ -7,6 +7,8 @@ import { runDailyBroadcastJob } from "@/worker/jobs/daily-broadcast";
  * Header: `x-cron-secret: <CRON_SECRET>` or `Authorization: Bearer <CRON_SECRET>`
  * Query / Body param: `force=true` to override same-day execution lock.
  */
+export const dynamic = "force-dynamic";
+
 export async function POST(request: NextRequest) {
   try {
     const authHeader = request.headers.get("authorization");

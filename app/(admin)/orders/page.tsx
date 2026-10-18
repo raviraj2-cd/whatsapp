@@ -3,6 +3,8 @@
 import React, { Suspense, useEffect, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 interface OrderItem {
   name: string;
   price: number;

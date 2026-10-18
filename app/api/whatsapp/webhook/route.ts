@@ -6,6 +6,8 @@ import { verifyMetaSignature } from "@/lib/whatsapp/signature";
 import MessageLog from "@/models/MessageLog";
 import User from "@/models/User";
 
+export const dynamic = "force-dynamic";
+
 /**
  * 1. Meta Webhook Verification Handshake (GET)
  * Meta calls this when you configure your Webhook URL in Meta App Dashboard.

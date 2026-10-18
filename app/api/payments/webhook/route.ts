@@ -9,6 +9,8 @@ import Session from "@/models/Session";
 import Settings from "@/models/Settings";
 import User from "@/models/User";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Razorpay Webhook Handler
  * Verifies signature, guarantees idempotency by providerPaymentId,

@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 import logger from "./logger";
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
@@ -20,7 +18,8 @@ if (!global.mongooseCache) {
 }
 
 export async function connectDB(): Promise<typeof mongoose> {
-  if (!MONGODB_URI) {
+  const mongoUri = process.env.MONGODB_URI;
+  if (!mongoUri) {
     throw new Error("MONGODB_URI is not defined in environment variables");
   }
 
@@ -34,8 +33,8 @@ export async function connectDB(): Promise<typeof mongoose> {
       maxPoolSize: 10,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((m) => {
-      logger.info({ uri: MONGODB_URI.split("@").pop() }, "MongoDB connected successfully");
+    cached.promise = mongoose.connect(mongoUri, opts).then((m) => {
+      logger.info({ uri: mongoUri.split("@").pop() }, "MongoDB connected successfully");
       return m;
     });
   }

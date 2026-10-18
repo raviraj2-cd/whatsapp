@@ -14,6 +14,8 @@ const quoteSchema = z.object({
   note: z.string().optional(),
 });
 
+export const dynamic = "force-dynamic";
+
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

@@ -3,6 +3,8 @@ import { requireAdminAuth } from "@/lib/auth";
 import connectDB from "@/lib/db";
 import Order from "@/models/Order";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

@@ -44,6 +44,8 @@ function getPrivateKey(): string {
   throw new Error("FLOW_PRIVATE_KEY_PEM not found in environment or flows/ directory");
 }
 
+export const dynamic = "force-dynamic";
+
 /**
  * Meta WhatsApp Flow Data Exchange Endpoint
  * Handshake and screen transition handler.

@@ -4,6 +4,8 @@ import connectDB from "@/lib/db";
 import Broadcast from "@/models/Broadcast";
 import Order from "@/models/Order";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const auth = await requireAdminAuth();
   if (auth instanceof NextResponse) return auth;
